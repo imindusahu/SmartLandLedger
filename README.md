@@ -4,6 +4,21 @@ A modern, decentralized land registration system built on Ethereum blockchain. E
 
 ## 🚀 Quick Start
 
+### Option 1: One-Command Startup (Recommended)
+```bash
+npm run start
+# or
+./START.sh
+```
+This automatically:
+- Checks and cleans up occupied ports (8545 for Hardhat, 3000-3003 for Next.js)
+- Installs dependencies
+- Starts the blockchain
+- Deploys contracts
+- Launches the frontend
+- Shows all dashboard URLs
+
+### Option 2: Manual Setup
 ```bash
 # 1. Install dependencies
 npm install && cd app && npm install && cd ..
@@ -18,7 +33,12 @@ npm run hardhat:deploy
 cd app && npm run dev
 ```
 
-Visit `http://localhost:3000`
+### Option 3: Stop All Services
+```bash
+npm run stop
+```
+
+Visit `http://localhost:3000` (or the port shown in startup)
 
 ## 🛠 Tech Stack
 

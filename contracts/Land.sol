@@ -12,6 +12,19 @@ contract Land {
         uint physicalSurveyNumber;
         string ipfsHash;
         string document;
+        address buyer;
+        uint createdAt;
+    }
+
+    struct LandView {
+        uint id;
+        string location;
+        uint area;
+        uint price;
+        address seller;
+        address buyer;
+        bool verified;
+        uint createdAt;
     }
 
     struct Buyer{
@@ -180,54 +193,115 @@ contract Land {
     }
 
     function isLandVerified(uint _id) public view returns (bool) {
-        if(LandVerification[_id]){
-            return true;
-        }
+        return LandVerification[_id];
     }
 
     function isVerified(address _id) public view returns (bool) {
-        if(SellerVerification[_id] || BuyerVerification[_id]){
-            return true;
-        }
+        return SellerVerification[_id] || BuyerVerification[_id];
     }
 
     function isRejected(address _id) public view returns (bool) {
-        if(SellerRejection[_id] || BuyerRejection[_id]){
-            return true;
-        }
+        return SellerRejection[_id] || BuyerRejection[_id];
     }
 
     function isSeller(address _id) public view returns (bool) {
-        if(RegisteredSellerMapping[_id]){
-            return true;
-        }
+        return RegisteredSellerMapping[_id];
     }
 
     function isLandInspector(address _id) public view returns (bool) {
-        if(Land_Inspector == _id){
-            return true;
-        }else{
-            return false;
-        }
+        return Land_Inspector == _id;
     }
 
     function isBuyer(address _id) public view returns (bool) {
-        if(RegisteredBuyerMapping[_id]){
-            return true;
-        }
+        return RegisteredBuyerMapping[_id];
     }
     function isRegistered(address _id) public view returns (bool) {
-        if(RegisteredAddressMapping[_id]){
-            return true;
-        }
+        return RegisteredAddressMapping[_id];
+    }
+
+    function registerLand(string memory _location, uint _area, uint _price) public {
+        addLand(_area, _location, "", _price, 0, 0, "", "");
     }
 
     function addLand(uint _area, string memory _city,string memory _state, uint landPrice, uint _propertyPID,uint _surveyNum,string memory _ipfsHash, string memory _document) public {
         require((isSeller(msg.sender)) && (isVerified(msg.sender)));
         landsCount++;
-        lands[landsCount] = Landreg(landsCount, _area, _city, _state, landPrice,_propertyPID, _surveyNum, _ipfsHash, _document);
+        lands[landsCount] = Landreg(landsCount, _area, _city, _state, landPrice, _propertyPID, _surveyNum, _ipfsHash, _document, address(0), block.timestamp);
         LandOwner[landsCount] = msg.sender;
         // emit AddingLand(landsCount);
+    }
+
+    function getAllLands() public view returns (LandView[] memory) {
+        LandView[] memory allLands = new LandView[](landsCount);
+        for (uint i = 1; i <= landsCount; i++) {
+            Landreg storage current = lands[i];
+            allLands[i - 1] = LandView(
+                current.id,
+                current.city,
+                current.area,
+                current.landPrice,
+                LandOwner[i],
+                current.buyer,
+                LandVerification[i],
+                current.createdAt
+            );
+        }
+        return allLands;
+    }
+
+    function getLandsByOwner(address _owner) public view returns (LandView[] memory) {
+        uint count = 0;
+        for (uint i = 1; i <= landsCount; i++) {
+            if (LandOwner[i] == _owner || lands[i].buyer == _owner) {
+                count++;
+            }
+        }
+
+        LandView[] memory ownerLands = new LandView[](count);
+        uint index = 0;
+        for (uint i = 1; i <= landsCount; i++) {
+            if (LandOwner[i] == _owner || lands[i].buyer == _owner) {
+                Landreg storage current = lands[i];
+                ownerLands[index] = LandView(
+                    current.id,
+                    current.city,
+                    current.area,
+                    current.landPrice,
+                    LandOwner[i],
+                    current.buyer,
+                    LandVerification[i],
+                    current.createdAt
+                );
+                index++;
+            }
+        }
+        return ownerLands;
+    }
+
+    function requestLand(uint _landId) public payable {
+        require(isBuyer(msg.sender) && isVerified(msg.sender), "Buyer must be verified");
+        require(_landId > 0 && _landId <= landsCount, "Invalid land id");
+
+        address seller = LandOwner[_landId];
+        require(seller != address(0), "Land not found");
+        require(seller != msg.sender, "Cannot request your own land");
+        require(msg.value >= lands[_landId].landPrice, "Insufficient payment");
+
+        requestsCount++;
+        RequestsMapping[requestsCount] = LandRequest(requestsCount, seller, msg.sender, _landId);
+        RequestStatus[requestsCount] = false;
+        RequestedLands[requestsCount] = true;
+
+        payment(payable(seller), _landId);
+        lands[_landId].buyer = msg.sender;
+    }
+
+    function makePayment(uint _landId) public payable {
+        require(_landId > 0 && _landId <= landsCount, "Invalid land id");
+        require(msg.value >= lands[_landId].landPrice, "Insufficient payment");
+        address seller = LandOwner[_landId];
+        require(seller != address(0), "Land not found");
+        payment(payable(seller), _landId);
     }
 
     //registration of seller
@@ -314,15 +388,11 @@ contract Land {
     }
 
     function isRequested(uint _id) public view returns (bool) {
-        if(RequestedLands[_id]){
-            return true;
-        }
+        return RequestedLands[_id];
     }
 
     function isApproved(uint _id) public view returns (bool) {
-        if(RequestStatus[_id]){
-            return true;
-        }
+        return RequestStatus[_id];
     }
 
     function approveRequest(uint _reqId) public {
@@ -339,9 +409,7 @@ contract Land {
     }
 
     function isPaid(uint _landId) public view returns (bool) {
-        if(PaymentReceived[_landId]){
-            return true;
-        }
+        return PaymentReceived[_landId];
     }
 
     function payment(address payable _receiver, uint _landId) public payable {

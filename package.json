@@ -5,11 +5,14 @@
     "scripts": {
         "hardhat:node": "hardhat node",
         "hardhat:compile": "hardhat compile",
-        "hardhat:deploy": "hardhat run scripts/deploy.js",
+        "hardhat:deploy": "hardhat run scripts/deploy.js --network localhost",
+        "hardhat:deploy:localhost": "hardhat run scripts/deploy.js --network localhost",
         "hardhat:test": "hardhat test",
         "app:dev": "cd app && npm run dev",
         "app:build": "cd app && npm run build",
         "app:start": "cd app && npm start",
+        "start": "./START.sh",
+        "stop": "pkill -f 'hardhat\\|next' || echo 'No processes to stop'",
         "dev": "concurrently \"npm run hardhat:node\" \"npm run app:dev\"",
         "test": "hardhat test"
     },
