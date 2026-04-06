@@ -1,98 +1,150 @@
-# Land Registration System with Blockchain  
+# SmartLandLedger - Blockchain Land Registration System
 
-## ⚡ MODERNIZED (April 2026)
+A modern, decentralized land registration system built on Ethereum blockchain. Eliminate fraud, improve transparency, and streamline property transfers.
 
-**New Stack:** Hardhat + Next.js 14 + Ethers.js v6 + Solidity 0.8.19
+## 🚀 Quick Start
 
-This project has been upgraded from Truffle + CRA to a modern development stack. See [QUICKSTART.md](QUICKSTART.md) and [MODERNIZATION.md](MODERNIZATION.md) for details.
+```bash
+# 1. Install dependencies
+npm install && cd app && npm install && cd ..
 
-## This work was presented at IEEE ICAECC'23 - <a href="https://ieeexplore.ieee.org/document/10560138">Checkout</a>
-<img src="https://img.shields.io/badge/Ethereum-20232A?style=for-the-badge&logo=ethereum&logoColor=white"> <img src="https://img.shields.io/badge/React-20232A?style=for-the-badge&logo=react&logoColor=61DAFB"> <img src="https://img.shields.io/badge/Next.js-20232A?style=for-the-badge&logo=next.js&logoColor=white"> <img src="https://img.shields.io/badge/Hardhat-20232A?style=for-the-badge&logo=ethereum&logoColor=yellow">
+# 2. Start Hardhat network
+npm run hardhat:node
 
+# 3. Deploy contracts (in another terminal)
+npm run hardhat:deploy
 
+# 4. Start frontend (in another terminal, from app folder)
+cd app && npm run dev
+```
 
-## Project Description:
+Visit `http://localhost:3000`
 
-This is an application of Land Registration System. 
-Land registry in India as well as in many parts of the world is a very slow and inconvenient process. Current land registration & verification systems include an increasing number of fraud cases and loss of paperwork and court cases due to thousands of land records to maintain.  
-The intuition behind building this was to make the process of land registration resilient and decreases the cases of fraud in the process. Using the system, validation of the lands is also possible as immutable transactions are being stored in the public ledger.  
-So the Land Registration system using blockchain is a distributed system that will store all the transactions made during the process of land buying. This will also be helpful for buyers, sellers and government registrars to transfer the land ownership from seller to new buyer as well as it will accelerate the process of registration.  
+## 🛠 Tech Stack
 
+| Layer | Technology |
+|-------|----------|
+| **Smart Contracts** | Solidity 0.8.19 |
+| **Blockchain Dev** | Hardhat |
+| **Frontend** | Next.js 14 + React 18 |
+| **Web3 Library** | Ethers.js v6 |
+| **Local Network** | Hardhat Network |
+| **Wallet** | MetaMask |
 
-## Tech Stack Used:
+## 📋 Features
 
-	Frontend:
-	* Javascript
-    * React Framework
-	* CSS
-    * Metamask Chrome Extension
+### Seller Dashboard
+- Register new land properties
+- Manage owned lands
+- Approve buyer requests
+- Track transaction history
 
-	Backend:
-	* Ethereum Blockchain (Truffle Suite)
-    * Solidity
-    * Ganache
+### Buyer Dashboard
+- Browse available verified lands
+- Request land purchases
+- Make secure payments
+- View owned properties
 
+### Inspector Dashboard
+- Verify land authenticity
+- Approve land registrations
+- Review pending transactions
+- Maintain registry integrity
 
-## Application features:  
+### Public Land Registry
+- Search lands by location
+- Filter by verification status
+- View full land details
+- Transparent transaction history
 
-* **Registration Page**: Seller & Buyer can register for an account on the application. 
-* **Land Inspector Dashboard**: Land Inspector works as the admin and is already registered. He can then verify the Sellers, Buyers and approve Land Transfer Process.
-* **User Profile**: Seller & Buyer can view their profile via their respective Dashboards.
-* **Edit Profile**: Seller & Buyer can edit their profile.
-* **Seller Dashboard**: A Brief Description of Added Lands and features to Add a new Land and approve a Land request from a Buyer.
-* **Add Land**: Seller can add a land after he/she is verified by the Land Inspector.
-* **Approve Land Request**: Approve a Request by Buyer to Buy a Land.
-* **Buyer Dashboard**: A Brief Description of all Lands and features to Request a Land to Land Owner of the particular Land. 
-* **Owned Lands**: Details of Lands owned by the Buyer after Buying some lands.
-* **Make Payment**: Complete Payment transfer to Seller after Land Request is approved.
-* **View Lands**: Complete Information of Lands along with its Images and Required Documents.
-* **Land Ownership Transfer**: Transfer of Land Ownership from Seller to Buyer via Land Inspector.  
+## 📁 Project Structure
 
+```
+SmartLandLedger/
+├── contracts/              # Smart contracts (Solidity)
+│   ├── Land.sol           # Main land registry contract
+│   └── Migrations.sol
+├── app/                   # Next.js frontend
+│   ├── pages/            # Dashboard pages
+│   ├── public/           # Static assets & contract ABIs
+│   └── styles/           # CSS modules
+├── scripts/              # Deployment scripts
+├── test/                 # Contract tests
+├── hardhat.config.js     # Hardhat configuration
+└── package.json          # Dependencies
+```
 
+## 🔧 Available Commands
 
-## Steps to run the application:
-1. Clone the github repository and cd to the folder 
-2. Open _Ganache_ and keep it running in the Background.
-3. Make sure you have Metamask Extension in your browser.
-4. In the root directory run _truffle migrate --reset_.
-5. cd to the _client_ folder and run _npm install_.
-6. Run _npm start_.
+```bash
+# Hardhat
+npm run hardhat:compile    # Compile contracts
+npm run hardhat:test       # Run tests
+npm run hardhat:node       # Start local network
+npm run hardhat:deploy     # Deploy contracts
 
-## [Project Demo Link](https://youtu.be/6VLaAa8GNDc)
+# Frontend
+cd app && npm run dev      # Start development server
+cd app && npm run build    # Build for production
+```
 
-## Some features of the application:-
+## 📚 Documentation
 
+- **[QUICKSTART.md](QUICKSTART.md)** - Detailed setup guide
+- **[DEMONSTRATION_GUIDE.md](DEMONSTRATION_GUIDE.md)** - How to demonstrate the system
+- **[DASHBOARD_GUIDE.md](DASHBOARD_GUIDE.md)** - Dashboard user guide
 
-Landing Page                   |                   Buyer Registration
-:---------------------------------:        |      :------------------------------:
-<img src="Screenshots/landing.png" height="200">  | <img src="Screenshots/registration.png" height="200">
+## 🎯 How It Works
 
-Buyer Dashboard                   |                   Seller Dashboard
-:---------------------------------:        |      :------------------------------:
-<img src="Screenshots/buyer dashboard.png" height="200">     |<img src="Screenshots/seller dashboard2.png" height="200">
+1. **Land Registration**: Sellers register property details on the blockchain
+2. **Verification**: Inspectors verify land authenticity
+3. **Purchase Request**: Buyers request to purchase verified lands
+4. **Payment**: Buyers transfer ETH to the smart contract
+5. **Ownership Transfer**: Smart contract automatically transfers ownership
+6. **All transactions recorded immutably on blockchain**
 
-Add Land(by Seller)            |                   View all Lands Details
-:---------------------------------:        |      :------------------------------:
-<img src="Screenshots/add land.png" height="200">     |<img src="Screenshots/Land Gallery.png" height="200">
+## 🔐 Key Benefits
 
-Help & FAQ Page                |                   Verify Buyer(by Land Inspector)
-:---------------------------------:        |      :------------------------------:
-<img src="Screenshots/help.png" height="200" >     |<img src="Screenshots/verify buyer.png" height="200"  >
+- ✅ **Immutable Records**: All transactions permanently recorded
+- ✅ **Transparent**: Complete transaction history visible
+- ✅ **Secure**: Cryptographic security prevents fraud
+- ✅ **Efficient**: Eliminates intermediaries
+- ✅ **Accessible**: Anyone can verify ownership anytime
 
-Approve Land Request(by Seller)               |             Payment by Buyer 
-:---------------------------------:        |      :------------------------------:
-<img src="Screenshots/approve request.png" height="200">     |<img src="Screenshots/payment.png" height="200">
+## 🧪 Testing
 
-Verify Land Transaction(by Land Inspector)    |                   Owned Lands(Buyer)
-:---------------------------------:        |      :------------------------------:
-<img src="Screenshots/verify transaction.png" height="200">     |<img src="Screenshots/owned lands.png" height="200">
+Run the test suite:
+```bash
+npm run hardhat:test
+```
 
-View Profile(Before Verification)                  |             Edit Profile(After Verification)
-:---------------------------------:        |      :------------------------------:
-<img src="Screenshots/profile.png" height="200" width="100%">     |<img src="Screenshots/edit profile.png" height="200" width="80%">
+## 🌐 Blockchain Details
 
-### Make sure to star the repository if you find it helpful!
-![visitors](https://visitor-badge.laobi.icu/badge?page_id=vrii14.Land-Registration-with-Blockchain)
-<a href="https://github.com/vrii14/Land-Registration-with-Blockchain/stargazers"><img src="https://img.shields.io/github/stars/vrii14/Land-Registration-with-Blockchain?color=yellow" alt="Stars Badge"/></a>
-<a href="https://github.com/vrii14/Land-Registration-with-Blockchain/graphs/contributors"><img alt="GitHub contributors" src="https://img.shields.io/github/contributors/vrii14/Land-Registration-with-Blockchain?color=2b9348"></a>
+- **Network**: Hardhat Local (for development)
+- **Chain ID**: 31337
+- **RPC URL**: http://127.0.0.1:8545
+- **Currency**: ETH
+
+### Test Accounts
+The Hardhat network provides 20 test accounts with pre-loaded ETH. When running `npm run hardhat:node`, the accounts and private keys are displayed in the console.
+
+## 📝 License
+
+MIT License - see [LICENSE](LICENSE) file for details
+
+## 🤝 Contributing
+
+This project is open for contributions. Feel free to submit issues and pull requests.
+
+## 📖 References
+
+- [Hardhat Documentation](https://hardhat.org/)
+- [Next.js Documentation](https://nextjs.org/)
+- [Ethers.js Documentation](https://docs.ethers.org/)
+- [Solidity Documentation](https://docs.soliditylang.org/)
+- [MetaMask Documentation](https://docs.metamask.io/)
+
+---
+
+**SmartLandLedger**: Making land registration transparent, secure, and accessible.
 
